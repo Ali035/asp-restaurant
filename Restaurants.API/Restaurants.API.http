@@ -4,3 +4,12 @@ GET {{Restaurants.API_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{Restaurants.API_HostAddress}}/weatherforecast/generate?count=2
+Content-Type: application/json
+
+{
+    "Min":"a",
+    "Max":"5"
+}
+###

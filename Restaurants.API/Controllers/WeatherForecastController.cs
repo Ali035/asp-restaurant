@@ -2,6 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Restaurants.API.Controllers;
 
+public class TemperatureRequest
+{
+    public int Min { get; set; }
+    public int Max { get; set; }
+}
+
 [ApiController]
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
@@ -39,5 +45,22 @@ public class WeatherForecastController : ControllerBase
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+    }
+
+    [HttpPost]
+    [Route("generate")]
+    public IActionResult Generate(int count, TemperatureRequest request)
+    {
+        return Ok(
+            Enumerable
+                .Range(1, count)
+                .Select(index => new WeatherForecast
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                    TemperatureC = Random.Shared.Next(request.Min, request.Max),
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                })
+                .ToArray()
+        );
     }
 }
